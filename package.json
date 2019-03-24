@@ -1,0 +1,29 @@
+{
+  "name": "rete-dock-plugin",
+  "version": "0.1.0",
+  "description": "",
+  "main": "build/dock-plugin.common.js",
+  "module": "build/dock-plugin.esm.js",
+  "scripts": {
+    "build": "rete --build rete.config.js",
+    "build:dev": "rete --build rete.config.js --watch",
+    "prepublishOnly": "npm run build",
+    "prebuild": "tsc",
+    "lint": "eslint src"
+  },
+  "author": "Vitaliy Stoliarov",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/retejs/dock-plugin.git"
+  },
+  "dependencies": {
+    "rete": "file:../rete"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.14.1",
+    "rete-cli": "0.6.0-rc.3",
+    "typescript": "3.3.4000"
+  }
+}
