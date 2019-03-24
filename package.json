@@ -8,8 +8,9 @@
     "build": "rete --build rete.config.js",
     "build:dev": "rete --build rete.config.js --watch",
     "prepublishOnly": "npm run build",
-    "prebuild": "tsc",
-    "lint": "eslint src"
+    "prebuild": "npm run lint && npm run types",
+    "lint": "tsc",
+    "types": "tsc src/index.ts --declaration --outDir ./types --downlevelIteration --emitDeclarationOnly"
   },
   "author": "Vitaliy Stoliarov",
   "license": "MIT",
