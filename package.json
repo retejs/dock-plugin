@@ -19,7 +19,7 @@
     "url": "https://github.com/retejs/dock-plugin.git"
   },
   "dependencies": {
-    "rete": "file:../rete"
+    "rete": "1.2.0-rc.10"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
