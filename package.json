@@ -1,9 +1,10 @@
 {
   "name": "rete-dock-plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "build/dock-plugin.common.js",
   "module": "build/dock-plugin.esm.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "build": "rete --build rete.config.js",
     "build:dev": "rete --build rete.config.js --watch",
