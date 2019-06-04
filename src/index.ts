@@ -1,7 +1,7 @@
 import { NodeEditor, Control, Component } from 'rete';
-import { Plugin } from 'rete/types/core/plugin';
 import { ClickStrategy } from './click-strategy';
 import { DropStrategy } from './drop-strategy';
+import { Plugin } from 'rete/types/core/plugin';
 
 type Params = {
     container: HTMLElement,
@@ -19,6 +19,7 @@ function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-ite
     editor.on('componentregister', async c => {
         const component: Component = Object.create(c);
         const el = document.createElement('div');
+
         el.classList.add(itemClass)
 
         container.appendChild(el);
@@ -27,13 +28,14 @@ function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-ite
         dropStrategy.addComponent(el, component);
 
         component.editor = copy;
+
         copy.trigger('rendernode', {
             el,
             node: await component.createNode({}),
             component: component.data,
             bindSocket: () => {},
-            bindControl: (el: HTMLElement, control: Control) => {
-                copy.trigger('rendercontrol', { el, control });
+            bindControl: (element: HTMLElement, control: Control) => {
+                copy.trigger('rendercontrol', { el: element, control });
             }
         });
     });
