@@ -10,6 +10,8 @@ type Params = {
 }
 
 function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-item' } : Params) {
+    if (!(container instanceof HTMLElement)) throw new Error('container is not HTML element');
+
     const copy = new NodeEditor(editor.id, editor.view.container);
     const clickStrategy = new ClickStrategy(editor);
     const dropStrategy = new DropStrategy(editor);
