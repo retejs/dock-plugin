@@ -7,8 +7,12 @@ import DockPlugin from 'rete-dock-plugin';
 
 editor.use(DockPlugin, {
     container: document.querySelector('.dock'),
-    plugins: [VueRenderPlugin], // render plugins
     itemClass: 'item' // default: dock-item 
+    plugins: [VueRenderPlugin], // render plugins
+    // or
+    plugins: [
+        [VueRenderPlugin, renderPluginOptions]
+    ],
 });
 ```
 
