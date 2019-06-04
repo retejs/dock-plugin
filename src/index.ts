@@ -30,7 +30,7 @@ function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-ite
         copy.trigger('rendernode', {
             el,
             node: await component.createNode({}),
-            component,
+            component: component.data,
             bindSocket: () => {},
             bindControl: (el: HTMLElement, control: Control) => {
                 copy.trigger('rendercontrol', { el, control });
