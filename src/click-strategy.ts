@@ -10,14 +10,15 @@ export class ClickStrategy {
         this.editor = editor;
         this.position = {x: 0, y: 0}
         
-        editor.on('click', () => {
+        this.editor.on('click', () => {
             this.position = editor.view.area.mouse;
         });
     }
 
     addComponent(el: HTMLElement, component: Component) {
         el.addEventListener('click', async () => {
-            const node = await createNode(component, this.position);
+            const componentFromEditor = this.editor.components.get(component.name)
+            const node = await createNode(componentFromEditor as Component, this.position);
 
             this.editor.addNode(node);
         });
