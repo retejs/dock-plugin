@@ -20,7 +20,7 @@
     "url": "https://github.com/retejs/dock-plugin.git"
   },
   "dependencies": {
-    "rete": "1.4.1-rc.1"
+    "rete": "^1.4.1-rc.1"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.3.3",
