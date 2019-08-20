@@ -6,7 +6,6 @@
   "module": "build/dock-plugin.esm.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "install": "npm run build",
     "prepare": "npm run build",
     "build": "rete --build rete.config.js",
     "build:dev": "rete --build rete.config.js --watch",
