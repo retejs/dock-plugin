@@ -1,6 +1,6 @@
 {
   "name": "rete-dock-plugin",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "build/dock-plugin.common.js",
   "module": "build/dock-plugin.esm.js",
@@ -19,13 +19,14 @@
     "type": "git",
     "url": "https://github.com/retejs/dock-plugin.git"
   },
-  "dependencies": {
+  "peerDependencies": {
     "rete": "1.3.0"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.3.3",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.14.1",
+    "rete": "1.3.0",
     "rete-cli": "0.6.0",
     "typescript": "3.3.4000"
   }
