@@ -7,8 +7,8 @@ type PluginWithOptions = Plugin | [Plugin, any];
 type Params = {
     container: HTMLElement,
     plugins: PluginWithOptions[],
-    itemClass: string
-    strategies?: any[];
+    itemClass: string,
+    strategies?: any[]
 }
 
 const defaultStrategies = [
@@ -16,7 +16,10 @@ const defaultStrategies = [
     DropStrategy
 ]
 
-function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-item', strategies = defaultStrategies } : Params) {
+function install(editor: NodeEditor, {
+    container, plugins, itemClass = 'dock-item',
+    strategies = defaultStrategies
+} : Params) {
     if (!(container instanceof HTMLElement)) throw new Error('container is not HTML element');
 
     const copy = new NodeEditor(editor.id, editor.view.container);
@@ -59,5 +62,5 @@ export { DropStrategy, ClickStrategy };
 
 export default {
     name: 'dock',
-    install,
+    install
 }
