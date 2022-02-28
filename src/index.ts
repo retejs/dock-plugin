@@ -1,4 +1,4 @@
-import { NodeEditor, Control, Component } from 'rete';
+import { Component, Control, NodeEditor } from 'rete';
 import { ClickStrategy } from './click-strategy';
 import { DropStrategy } from './drop-strategy';
 import { Plugin } from 'rete/types/core/plugin';

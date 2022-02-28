@@ -1,4 +1,4 @@
-import { Component } from "rete";
+import { Component } from 'rete';
 
 export async function createNode(component: Component, position: { x: number, y: number }) {
     let node = await component.createNode({});

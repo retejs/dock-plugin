@@ -1,5 +1,5 @@
-import { Component, NodeEditor } from "rete";
-import { createNode } from "./utils";
+import { Component, NodeEditor } from 'rete';
+import { createNode } from './utils';
 
 export class DropStrategy {
 

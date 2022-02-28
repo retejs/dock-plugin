@@ -1,5 +1,5 @@
-import { Component, NodeEditor } from "rete";
-import { createNode } from "./utils";
+import { Component, NodeEditor } from 'rete';
+import { createNode } from './utils';
 
 export class ClickStrategy {
 
@@ -8,7 +8,7 @@ export class ClickStrategy {
 
     constructor(editor: NodeEditor) {
         this.editor = editor;
-        this.position = {x: 0, y: 0}
+        this.position = { x: 0, y: 0 }
         
         editor.on('click', () => {
             this.position = editor.view.area.mouse;
