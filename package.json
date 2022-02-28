@@ -1,6 +1,6 @@
 {
   "name": "rete-dock-plugin",
-  "version": "0.2.2-alpha2",
+  "version": "0.2.2-alpha3",
   "description": "",
   "main": "build/dock-plugin.common.js",
   "module": "build/dock-plugin.esm.js",
@@ -18,9 +18,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/retejs/dock-plugin.git"
-  },
-  "peerDependencies": {
-    "rete": "^1.4.5"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.3.3",
