@@ -1,6 +1,6 @@
 {
   "name": "rete-dock-plugin",
-  "version": "0.2.2-alpha3",
+  "version": "0.2.2-alpha4",
   "description": "",
   "main": "build/dock-plugin.common.js",
   "module": "build/dock-plugin.esm.js",
@@ -20,11 +20,14 @@
     "url": "https://github.com/retejs/dock-plugin.git"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.3.3",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.14.1",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@babel/plugin-transform-typescript": "^7.16.8",
+    "@babel/eslint-parser": "^7.17.0",
+    "@rollup/plugin-typescript": "^8.3.1",
+    "eslint": "^8.10.0",
     "rete": "^1.4.5",
-    "rete-cli": "^0.6.0",
-    "typescript": "^3.3.4000"
+    "efficy-rete-cli": "^1.0.0-alpha1",
+    "typescript": "^3.7.7"
   }
 }

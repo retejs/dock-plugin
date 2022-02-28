@@ -1,3 +1,5 @@
+import typescript from '@rollup/plugin-typescript';
+
 export default {
     input: 'src/index.ts',
     name: 'DockPlugin',
@@ -7,5 +9,5 @@ export default {
     babelPresets: [
         require('@babel/preset-typescript')
     ],
-    extensions: ['.js', '.ts']
+    plugins: [typescript()]
 }
