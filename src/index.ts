@@ -8,20 +8,27 @@ type Params = {
     container: HTMLElement,
     plugins: PluginWithOptions[],
     itemClass: string
+    strategies?: any[];
 }
 
-function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-item' } : Params) {
+const defaultStrategies = [
+    ClickStrategy,
+    DropStrategy
+]
+
+function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-item', strategies = defaultStrategies } : Params) {
     if (!(container instanceof HTMLElement)) throw new Error('container is not HTML element');
 
     const copy = new NodeEditor(editor.id, editor.view.container);
-    const clickStrategy = new ClickStrategy(editor);
-    const dropStrategy = new DropStrategy(editor);
+
+    const strategyInstances = strategies.map(Strategy => new Strategy(editor));
 
     plugins.forEach(plugin => {
-        if (Array.isArray(plugin))
+        if (Array.isArray(plugin)) {
             copy.use(plugin[0], plugin[1])
-        else 
+        } else {
             copy.use(plugin)
+        }
     });
 
     editor.on('componentregister', async c => {
@@ -32,8 +39,7 @@ function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-ite
 
         container.appendChild(el);
 
-        clickStrategy.addComponent(el, component);
-        dropStrategy.addComponent(el, component);
+        strategyInstances.map(strategy => strategy.addComponent(el, component));
 
         component.editor = copy;
 
@@ -49,7 +55,9 @@ function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-ite
     });
 }
 
+export { DropStrategy, ClickStrategy };
+
 export default {
     name: 'dock',
-    install
+    install,
 }

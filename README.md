@@ -7,7 +7,8 @@ import DockPlugin from 'rete-dock-plugin';
 
 editor.use(DockPlugin, {
     container: document.querySelector('.dock'),
-    itemClass: 'item' // default: dock-item 
+    itemClass: 'item' // default: dock-item
+    strategies: [DropStrategy] // default: [DropStrategy, ClickStrategy]
     plugins: [VueRenderPlugin], // render plugins
     // or
     plugins: [
@@ -15,6 +16,18 @@ editor.use(DockPlugin, {
     ],
 });
 ```
+
+#### Selecting Strategies
+
+```js
+import DockPlugin, { DropStrategy, ClickStrategy } from 'rete-dock-plugin';
+
+editor.use(DockPlugin, {
+    container: document.querySelector('.dock'),
+    strategies: [DropStrategy, ClickStrategy],
+});
+```
+
 
 Example:
 
