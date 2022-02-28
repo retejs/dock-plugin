@@ -12,17 +12,19 @@ type Params = {
     strategies?: TypeStrategies[];
 }
 
-const install = (editor: NodeEditor | any, options?: Params | any): void => {
-    const itemClass = options.itemClass || "dock-item";
+const install = (editor: NodeEditor | any, options: Params | any): void => {
+    const itemClass = options.itemClass || 'dock-item';
     const strategies = options.strategies || [ClickStrategy, DropStrategy];
     const {
         container,
-        plugins,
+        plugins
     } = options;
+
     if (!(container instanceof HTMLElement)) throw new Error('container is not HTML element');
 
     const copy = new NodeEditor(editor.id, editor.view.container);
 
+    // eslint-disable-next-line new-cap
     const strategyInstances = strategies.map((strategy: TypeStrategies) => new strategy(editor));
 
     plugins.forEach((plugin: PluginWithOptions) => {
@@ -33,7 +35,7 @@ const install = (editor: NodeEditor | any, options?: Params | any): void => {
         }
     });
 
-    editor.on('componentregister', async (c: object) => {
+    editor.on('componentregister', async (c: Component) => {
         const component: Component = Object.create(c);
         const el = document.createElement('div');
 
@@ -41,7 +43,8 @@ const install = (editor: NodeEditor | any, options?: Params | any): void => {
 
         container.appendChild(el);
 
-        strategyInstances.map((strategy: ClickStrategy | DropStrategy) => strategy.addComponent(el, component));
+        strategyInstances
+            .map((strategy: ClickStrategy | DropStrategy) => strategy.addComponent(el, component));
 
         component.editor = copy;
 
