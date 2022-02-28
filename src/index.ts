@@ -4,29 +4,28 @@ import { DropStrategy } from './drop-strategy';
 import { Plugin } from 'rete/types/core/plugin';
 
 type PluginWithOptions = Plugin | [Plugin, any];
+type TypeStrategies = typeof ClickStrategy | typeof DropStrategy;
 type Params = {
-    container: HTMLElement,
-    plugins: PluginWithOptions[],
-    itemClass: string,
-    strategies?: any[]
+    container: HTMLElement;
+    plugins: PluginWithOptions[];
+    itemClass?: string;
+    strategies?: TypeStrategies[];
 }
 
-const defaultStrategies = [
-    ClickStrategy,
-    DropStrategy
-]
-
-function install(editor: NodeEditor, {
-    container, plugins, itemClass = 'dock-item',
-    strategies = defaultStrategies
-} : Params) {
+const install = (editor: NodeEditor | any, options?: Params | any): void => {
+    const itemClass = options.itemClass || "dock-item";
+    const strategies = options.strategies || [ClickStrategy, DropStrategy];
+    const {
+        container,
+        plugins,
+    } = options;
     if (!(container instanceof HTMLElement)) throw new Error('container is not HTML element');
 
     const copy = new NodeEditor(editor.id, editor.view.container);
 
-    const strategyInstances = strategies.map(Strategy => new Strategy(editor));
+    const strategyInstances = strategies.map((strategy: TypeStrategies) => new strategy(editor));
 
-    plugins.forEach(plugin => {
+    plugins.forEach((plugin: PluginWithOptions) => {
         if (Array.isArray(plugin)) {
             copy.use(plugin[0], plugin[1])
         } else {
@@ -34,7 +33,7 @@ function install(editor: NodeEditor, {
         }
     });
 
-    editor.on('componentregister', async c => {
+    editor.on('componentregister', async (c: object) => {
         const component: Component = Object.create(c);
         const el = document.createElement('div');
 
@@ -42,7 +41,7 @@ function install(editor: NodeEditor, {
 
         container.appendChild(el);
 
-        strategyInstances.map(strategy => strategy.addComponent(el, component));
+        strategyInstances.map((strategy: ClickStrategy | DropStrategy) => strategy.addComponent(el, component));
 
         component.editor = copy;
 
