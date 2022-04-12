@@ -1,6 +1,6 @@
 {
   "name": "rete-dock-plugin",
-  "version": "0.2.2-alpha4",
+  "version": "0.2.2-alpha5",
   "description": "",
   "main": "build/dock-plugin.common.js",
   "module": "build/dock-plugin.esm.js",
