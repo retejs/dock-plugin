@@ -10,6 +10,7 @@ type Params = {
     plugins: PluginWithOptions[];
     itemClass?: string;
     strategies?: TypeStrategies[];
+    filterComponents?: string[];
 }
 
 const install = (editor: NodeEditor | any, options: Params | any): void => {
@@ -36,6 +37,8 @@ const install = (editor: NodeEditor | any, options: Params | any): void => {
     });
 
     editor.on('componentregister', async (c: Component) => {
+        if(options.filterComponents && (options.filterComponents.indexOf(c.name) === -1)) return;
+
         const component: Component = Object.create(c);
         const el = document.createElement('div');
 
