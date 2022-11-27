@@ -1,35 +1,37 @@
-import { Component, NodeEditor } from "rete";
-import { createNode } from "./utils";
+import { BaseSchemes, NodeEditor } from 'rete'
+import { AreaPlugin } from 'rete-area-plugin'
 
-export class DropStrategy {
+import { Strategy } from './strategy'
 
-    constructor(editor: NodeEditor) {
-        editor.view.container.addEventListener('dragover', e => e.preventDefault())
-        editor.view.container.addEventListener('drop', async e => {
-            if(!e.dataTransfer) return;
+export class DropStrategy<K> implements Strategy {
+    current?: () => BaseSchemes['Node']
 
-            const name = e.dataTransfer.getData('componentName');
-            const component = editor.components.get(name)
+    constructor(private editor: NodeEditor<BaseSchemes>, private area: AreaPlugin<BaseSchemes, K>) {
+        area.container.addEventListener('dragover', e => e.preventDefault())
+        area.container.addEventListener('drop', async event => {
+            if (!this.current) return
 
-            if(!component) throw new Error(`Component ${name} not found`)
+            const node = this.current()
 
-            // force update the mouse position
-            editor.view.area.pointermove(e as any as PointerEvent);
+            await this.editor.addNode(node)
 
-            const node = await createNode(component as Component, editor.view.area.mouse);
+            this.area.area.setPointerFrom(event)
 
-            editor.addNode(node)
+            const position = this.area.area.pointer
+            const view = this.area.nodeViews.get(node.id)
+
+            if (!view) throw new Error('view')
+
+            await view.translate(position.x, position.y)
         })
     }
 
-    addComponent(el: HTMLElement, component: Component) {
-        el.draggable = true;
+    add(element: HTMLElement, create: () => BaseSchemes['Node']) {
+        element.draggable = true
 
-        el.addEventListener('dragstart', e => {
-            if(!e.dataTransfer) return;
-
-            e.dataTransfer.setData('componentName', component.name);
-        });
+        element.addEventListener('dragstart', () => {
+            this.current = create
+        })
     }
-
 }
+

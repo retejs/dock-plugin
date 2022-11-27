@@ -1,55 +1,55 @@
-import { NodeEditor, Control, Component } from 'rete';
-import { ClickStrategy } from './click-strategy';
-import { DropStrategy } from './drop-strategy';
-import { Plugin } from 'rete/types/core/plugin';
+import { BaseSchemes, NodeEditor, Scope } from 'rete'
+import { Area2DInherited, AreaPlugin } from 'rete-area-plugin'
 
-type PluginWithOptions = Plugin | [Plugin, any];
-type Params = {
-    container: HTMLElement,
-    plugins: PluginWithOptions[],
-    itemClass: string
+import { ClickStrategy } from './click-strategy'
+import { DropStrategy } from './drop-strategy'
+import { Preset } from './presets/types'
+import { Strategy } from './strategy'
+
+export * as DockPresets from './presets'
+
+type Props<Schemes extends BaseSchemes, K> = {
+    editor: NodeEditor<Schemes>
+    area: AreaPlugin<Schemes, K>
 }
 
-function install(editor: NodeEditor, { container, plugins, itemClass = 'dock-item' } : Params) {
-    if (!(container instanceof HTMLElement)) throw new Error('container is not HTML element');
+export class DockPlugin<Schemes extends BaseSchemes, K> extends Scope<never, Area2DInherited<Schemes, never>> {
+    nodes: Schemes['Node'][] = []
+    clickStrategy: Strategy
+    dropStrategy: Strategy
+    presets: Preset[] = []
 
-    const copy = new NodeEditor(editor.id, editor.view.container);
-    const clickStrategy = new ClickStrategy(editor);
-    const dropStrategy = new DropStrategy(editor);
+    constructor(props: Props<Schemes, K>) {
+        super('dock')
 
-    plugins.forEach(plugin => {
-        if (Array.isArray(plugin))
-            copy.use(plugin[0], plugin[1])
-        else 
-            copy.use(plugin)
-    });
+        this.clickStrategy = new ClickStrategy(props.editor, props.area)
+        this.dropStrategy = new DropStrategy(props.editor, props.area)
+    }
 
-    editor.on('componentregister', async c => {
-        const component: Component = Object.create(c);
-        const el = document.createElement('div');
+    add(create: () => Schemes['Node']) {
+        if (!this.presets.length) throw new Error('presets not found')
 
-        el.classList.add(itemClass)
+        const node = create()
 
-        container.appendChild(el);
+        this.nodes.push(node)
 
-        clickStrategy.addComponent(el, component);
-        dropStrategy.addComponent(el, component);
+        const preset = this.presets[0]
+        const element = preset.createItem()
 
-        component.editor = copy;
-
-        copy.trigger('rendernode', {
-            el,
-            node: await component.createNode({}),
-            component: component.data,
-            bindSocket: () => {},
-            bindControl: (element: HTMLElement, control: Control) => {
-                copy.trigger('rendercontrol', { el: element, control });
+        this.parentScope()?.emit({
+            type: 'render',
+            data: {
+                type: 'node',
+                element,
+                payload: node
             }
-        });
-    });
-}
+        })
 
-export default {
-    name: 'dock',
-    install
+        this.clickStrategy.add(element, create)
+        this.dropStrategy.add(element, create)
+    }
+
+    addPreset(preset: Preset) {
+        this.presets.push(preset)
+    }
 }
