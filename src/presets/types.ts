@@ -1,3 +1,4 @@
 export type Preset = {
-    createItem(): HTMLElement
+    createItem(index?: number): HTMLElement | null
+    removeItem(element: HTMLElement): void
 }

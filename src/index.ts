@@ -9,7 +9,7 @@ import { Strategy } from './strategy'
 export * as DockPresets from './presets'
 
 export class DockPlugin<Schemes extends BaseSchemes> extends Scope<never, Area2DInherited<Schemes, never>> {
-    nodes: Schemes['Node'][] = []
+    nodes = new Map<() => Schemes['Node'], { preset: Preset, element: HTMLElement }>()
     clickStrategy!: Strategy
     dropStrategy!: Strategy
     presets: Preset[] = []
@@ -28,27 +28,37 @@ export class DockPlugin<Schemes extends BaseSchemes> extends Scope<never, Area2D
         this.dropStrategy = new DropStrategy(editor, area)
     }
 
-    add(create: () => Schemes['Node']) {
+    add(create: () => Schemes['Node'], index?: number) {
         if (!this.presets.length) throw new Error('presets not found')
 
-        const node = create()
 
-        this.nodes.push(node)
+        for (const preset of this.presets) {
+            const element = preset.createItem(index)
 
-        const preset = this.presets[0]
-        const element = preset.createItem()
+            if (!element) continue
 
-        this.parentScope()?.emit({
+            this.parentScope().emit({
                 type: 'render',
                 data: {
                     type: 'node',
                     element,
-                payload: node
+                    payload: create()
                 }
             })
 
+            this.nodes.set(create, { preset, element })
             this.clickStrategy.add(element, create)
             this.dropStrategy.add(element, create)
+            return
+        }
+    }
+
+    remove(create: () => Schemes['Node']) {
+        const item = this.nodes.get(create)
+
+        if (item) {
+            item.preset.removeItem(item.element)
+        }
     }
 
     addPreset(preset: Preset) {

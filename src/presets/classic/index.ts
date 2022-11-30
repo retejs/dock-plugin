@@ -60,12 +60,16 @@ export function setup<T>(props: { size?: number, scale?: number, area: AreaPlugi
     props.area.container.appendChild(container)
 
     return {
-        createItem() {
+        createItem(index) {
             const element = getNodeContainer(size, scale)
+            const beforeChild = typeof index !== 'undefined' ? container.children[index] : null
 
-            container.appendChild(element)
+            container.insertBefore(element, beforeChild)
 
             return element
+        },
+        removeItem(element) {
+            container.removeChild(element)
         }
     }
 }
