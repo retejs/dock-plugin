@@ -9,59 +9,58 @@ import { Strategy } from './strategy'
 export * as DockPresets from './presets'
 
 export class DockPlugin<Schemes extends BaseSchemes> extends Scope<never, Area2DInherited<Schemes, never>> {
-    nodes = new Map<() => Schemes['Node'], { preset: Preset, element: HTMLElement }>()
-    clickStrategy!: Strategy
-    dropStrategy!: Strategy
-    presets: Preset[] = []
+  nodes = new Map<() => Schemes['Node'], { preset: Preset, element: HTMLElement }>()
+  clickStrategy!: Strategy
+  dropStrategy!: Strategy
+  presets: Preset[] = []
 
-    constructor() {
-        super('dock')
-    }
+  constructor() {
+    super('dock')
+  }
 
-    setParent(scope: Scope<Area2D<Schemes>, [Root<Schemes>]>): void {
-        super.setParent(scope)
+  setParent(scope: Scope<Area2D<Schemes>, [Root<Schemes>]>): void {
+    super.setParent(scope)
 
-        const area = this.parentScope<AreaPlugin<Schemes>>(AreaPlugin)
-        const editor = area.parentScope<NodeEditor<Schemes>>(NodeEditor)
+    const area = this.parentScope<AreaPlugin<Schemes>>(AreaPlugin)
+    const editor = area.parentScope<NodeEditor<Schemes>>(NodeEditor)
 
-        this.clickStrategy = new ClickStrategy(editor, area)
-        this.dropStrategy = new DropStrategy(editor, area)
-    }
+    this.clickStrategy = new ClickStrategy(editor, area)
+    this.dropStrategy = new DropStrategy(editor, area)
+  }
 
-    add(create: () => Schemes['Node'], index?: number) {
-        if (!this.presets.length) throw new Error('presets not found')
+  add(create: () => Schemes['Node'], index?: number) {
+    if (!this.presets.length) throw new Error('presets not found')
 
+    for (const preset of this.presets) {
+      const element = preset.createItem(index)
 
-        for (const preset of this.presets) {
-            const element = preset.createItem(index)
+      if (!element) continue
 
-            if (!element) continue
-
-            this.parentScope().emit({
-                type: 'render',
-                data: {
-                    type: 'node',
-                    element,
-                    payload: create()
-                }
-            })
-
-            this.nodes.set(create, { preset, element })
-            this.clickStrategy.add(element, create)
-            this.dropStrategy.add(element, create)
-            return
+      this.parentScope().emit({
+        type: 'render',
+        data: {
+          type: 'node',
+          element,
+          payload: create()
         }
-    }
+      })
 
-    remove(create: () => Schemes['Node']) {
-        const item = this.nodes.get(create)
-
-        if (item) {
-            item.preset.removeItem(item.element)
-        }
+      this.nodes.set(create, { preset, element })
+      this.clickStrategy.add(element, create)
+      this.dropStrategy.add(element, create)
+      return
     }
+  }
 
-    addPreset(preset: Preset) {
-        this.presets.push(preset)
+  remove(create: () => Schemes['Node']) {
+    const item = this.nodes.get(create)
+
+    if (item) {
+      item.preset.removeItem(item.element)
     }
+  }
+
+  addPreset(preset: Preset) {
+    this.presets.push(preset)
+  }
 }
