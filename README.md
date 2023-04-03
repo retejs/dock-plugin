@@ -1,56 +1,24 @@
-Dock
+Rete.js Dock plugin
 ====
-#### Rete.js plugin
+[![Made in Ukraine](https://img.shields.io/badge/made_in-ukraine-ffd700.svg?labelColor=0057b7)](https://stand-with-ukraine.pp.ua)
+[![Discord](https://img.shields.io/discord/1081223198055604244?color=%237289da&label=Discord)](https://discord.gg/cxSFkPZdsV)
 
-```js
-import DockPlugin from 'rete-dock-plugin';
+**Rete.js plugin**
 
-editor.use(DockPlugin, {
-    container: document.querySelector('.dock'),
-    itemClass: 'item' // default: dock-item 
-    plugins: [VueRenderPlugin], // render plugins
-    // or
-    plugins: [
-        [VueRenderPlugin, renderPluginOptions]
-    ],
-});
-```
+## Key features
 
-Example:
+- **Dock menu**: provides a clickable/draggable preview of available nodes
+- **Presets**: predefined configurations for the appearance of the dock menu
+  - **Classic**: places the dock menu at the bottom of the area
 
-```html
-<div class="editor">
-    <div class="container">
-        <div class="node-editor"></div>
-    </div>
-    <div class="dock"></div>
-</div>
-```
+## Getting Started
 
-```css
-.editor {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    height: 100vh;
-}
+Please refer to the [guide](https://retejs.org/docs/guides/dock-menu) and [example](https://retejs.org/examples/dock) using this plugin
 
-.dock {
-    height: 100px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-}
+## Contribution
 
-.dock-item {
-    display: inline-block;
-    vertical-align: top;
-    transform: scale(0.8);
-    transform-origin: 50% 0;
-}
+Please refer to the [Contribution](https://retejs.org/docs/contribution) guide
 
-.container {
-    flex: 1;
-    overflow: hidden;
-}
-```
+## License
+
+[MIT](https://github.com/retejs/dock-plugin/blob/master/LICENSE)
