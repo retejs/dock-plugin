@@ -8,6 +8,11 @@ import { Strategy } from './strategy'
 
 export * as DockPresets from './presets'
 
+/**
+ * Dock plugin. Allows to create nodes from the dock by dragging or clicking.
+ * @priority 10
+ * @emits render
+ */
 export class DockPlugin<Schemes extends BaseSchemes> extends Scope<never, Area2DInherited<Schemes, never>> {
   nodes = new Map<() => Schemes['Node'], { preset: Preset, element: HTMLElement }>()
   clickStrategy!: Strategy
@@ -28,6 +33,11 @@ export class DockPlugin<Schemes extends BaseSchemes> extends Scope<never, Area2D
     this.dropStrategy = new DropStrategy(editor, area)
   }
 
+  /**
+   * Add node to the dock.
+   * @param create Function that creates node.
+   * @param index Index of the node in the dock, optional.
+   */
   add(create: () => Schemes['Node'], index?: number) {
     if (!this.presets.length) throw new Error('presets not found')
 
@@ -52,6 +62,10 @@ export class DockPlugin<Schemes extends BaseSchemes> extends Scope<never, Area2D
     }
   }
 
+  /**
+   * Remove node from the dock.
+   * @param create Function that creates node. Must be the same as in `add` method.
+   */
   remove(create: () => Schemes['Node']) {
     const item = this.nodes.get(create)
 
@@ -60,6 +74,10 @@ export class DockPlugin<Schemes extends BaseSchemes> extends Scope<never, Area2D
     }
   }
 
+  /**
+   * Add preset to the dock plugin.
+   * @param preset Preset that will manage dock items.
+   */
   addPreset(preset: Preset) {
     this.presets.push(preset)
   }

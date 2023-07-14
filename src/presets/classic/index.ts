@@ -52,6 +52,14 @@ function getNodeContainer(size: number, scale: number) {
   return element
 }
 
+/**
+ * Classic preset for the dock plugin.
+ * Creates container for list of nodes and containers each node.
+ * @param props Preset properties
+ * @param props.size Size of a node
+ * @param props.scale Scale of a node
+ * @param props.area Area plugin instance
+ */
 export function setup<T>(props: { size?: number, scale?: number, area: AreaPlugin<BaseSchemes, T> }): Preset {
   const size = typeof props.size === 'undefined' ? 100 : props.size
   const scale = typeof props.scale === 'undefined' ? 0.7 : props.scale

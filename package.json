@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "build": "rete build -c rete.config.ts",
-    "lint": "rete lint"
+    "lint": "rete lint",
+    "doc": "rete doc"
   },
   "author": "Vitaliy Stoliarov",
   "license": "MIT",
@@ -26,6 +27,7 @@
     "rete-area-plugin": "^2.0.0"
   },
   "devDependencies": {
+    "@types/node": "^20.4.2",
     "rete": "^2.0.1",
     "rete-area-plugin": "^2.0.0",
     "rete-cli": "^1.0.1",
