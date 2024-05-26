@@ -1,5 +1,6 @@
 import { BaseSchemes, NodeEditor } from 'rete'
 import { AreaPlugin } from 'rete-area-plugin'
+import { Position } from 'rete-area-plugin/_types/types'
 
 import { Strategy } from './strategy'
 
@@ -11,18 +12,8 @@ export class DropStrategy<K> implements Strategy {
     area.container.addEventListener('drop', async event => {
       if (!this.current) return
 
-      const node = this.current()
-
-      await this.editor.addNode(node)
-
       this.area.area.setPointerFrom(event)
-
-      const position = this.area.area.pointer
-      const view = this.area.nodeViews.get(node.id)
-
-      if (!view) throw new Error('view')
-
-      await view.translate(position.x, position.y)
+      this.drop(this.current(), this.area.area.pointer)
     })
   }
 
@@ -32,6 +23,16 @@ export class DropStrategy<K> implements Strategy {
     element.addEventListener('dragstart', () => {
       this.current = create
     })
+  }
+
+  private async drop(node: BaseSchemes['Node'], position: Position) {
+    await this.editor.addNode(node)
+
+    const view = this.area.nodeViews.get(node.id)
+
+    if (!view) throw new Error('view')
+
+    await view.translate(position.x, position.y)
   }
 }
 
