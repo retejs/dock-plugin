@@ -12,8 +12,12 @@ export class DropStrategy<K> implements Strategy {
     area.container.addEventListener('drop', async event => {
       if (!this.current) return
 
-      this.area.area.setPointerFrom(event)
-      this.drop(this.current(), this.area.area.pointer)
+      try {
+        this.area.area.setPointerFrom(event)
+        this.drop(this.current(), this.area.area.pointer)
+      } finally {
+        delete this.current
+      }
     })
   }
 
