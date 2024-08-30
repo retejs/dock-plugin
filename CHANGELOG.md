@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/retejs/dock-plugin/compare/v2.0.2...v2.0.3) (2024-08-30)
+
+
+### Bug Fixes
+
+* update cli and fix linting errors ([326f630](https://github.com/retejs/dock-plugin/commit/326f630a0f9dbf30b67107e462917b1585cb07aa))
+
 ## [2.0.2](https://github.com/retejs/dock-plugin/compare/v2.0.1...v2.0.2) (2024-05-26)
 
 
