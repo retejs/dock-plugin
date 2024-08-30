@@ -7,6 +7,7 @@ export class ClickStrategy<K> implements Strategy {
   constructor(private editor: NodeEditor<BaseSchemes>, private area: AreaPlugin<BaseSchemes, K>) { }
 
   add(element: HTMLElement, create: () => BaseSchemes['Node']): void {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     element.addEventListener('click', async () => {
       const node = create()
 

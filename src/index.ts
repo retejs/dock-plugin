@@ -13,7 +13,7 @@ export * as DockPresets from './presets'
  * @priority 10
  * @emits render
  */
-export class DockPlugin<Schemes extends BaseSchemes> extends Scope<never, Area2DInherited<Schemes, never>> {
+export class DockPlugin<Schemes extends BaseSchemes> extends Scope<never, Area2DInherited<Schemes>> {
   nodes = new Map<() => Schemes['Node'], { preset: Preset, element: HTMLElement }>()
   clickStrategy!: Strategy
   dropStrategy!: Strategy
@@ -46,7 +46,7 @@ export class DockPlugin<Schemes extends BaseSchemes> extends Scope<never, Area2D
 
       if (!element) continue
 
-      this.parentScope().emit({
+      void this.parentScope().emit({
         type: 'render',
         data: {
           type: 'node',

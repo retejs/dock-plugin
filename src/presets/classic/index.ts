@@ -29,13 +29,16 @@ function getContainer(size: number) {
 
   style.background = getGradient(size)
 
-  element.addEventListener('pointerdown', e => e.stopPropagation())
-  element.addEventListener('contextmenu', e => e.stopPropagation())
+  element.addEventListener('pointerdown', e => {
+    e.stopPropagation()
+  })
+  element.addEventListener('contextmenu', e => {
+    e.stopPropagation()
+  })
 
   return element
 }
 
-// eslint-disable-next-line max-statements
 function getNodeContainer(size: number, scale: number) {
   const element = document.createElement('div')
   const { style } = element
@@ -61,8 +64,12 @@ function getNodeContainer(size: number, scale: number) {
  * @param props.area Area plugin instance
  */
 export function setup<T>(props: { size?: number, scale?: number, area: AreaPlugin<BaseSchemes, T> }): Preset {
-  const size = typeof props.size === 'undefined' ? 100 : props.size
-  const scale = typeof props.scale === 'undefined' ? 0.7 : props.scale
+  const size = typeof props.size === 'undefined'
+    ? 100
+    : props.size
+  const scale = typeof props.scale === 'undefined'
+    ? 0.7
+    : props.scale
   const container = getContainer(size)
 
   props.area.container.appendChild(container)
@@ -70,7 +77,9 @@ export function setup<T>(props: { size?: number, scale?: number, area: AreaPlugi
   return {
     createItem(index) {
       const element = getNodeContainer(size, scale)
-      const beforeChild = typeof index !== 'undefined' ? container.children[index] : null
+      const beforeChild = typeof index !== 'undefined'
+        ? container.children[index]
+        : null
 
       container.insertBefore(element, beforeChild)
 
