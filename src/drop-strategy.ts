@@ -8,13 +8,15 @@ export class DropStrategy<K> implements Strategy {
   current?: () => BaseSchemes['Node']
 
   constructor(private editor: NodeEditor<BaseSchemes>, private area: AreaPlugin<BaseSchemes, K>) {
-    area.container.addEventListener('dragover', e => e.preventDefault())
-    area.container.addEventListener('drop', async event => {
+    area.container.addEventListener('dragover', e => {
+      e.preventDefault()
+    })
+    area.container.addEventListener('drop', event => {
       if (!this.current) return
 
       try {
         this.area.area.setPointerFrom(event)
-        this.drop(this.current(), this.area.area.pointer)
+        void this.drop(this.current(), this.area.area.pointer)
       } finally {
         delete this.current
       }
