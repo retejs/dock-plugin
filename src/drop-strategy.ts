@@ -32,7 +32,12 @@ export class DropStrategy<K> implements Strategy {
   }
 
   private async drop(node: BaseSchemes['Node'], position: Position) {
-    await this.editor.addNode(node)
+    const added = await this.editor.addNode(node)
+
+    if (!added) {
+      console.warn('Node addition prevented:', node)
+      return
+    }
 
     const view = this.area.nodeViews.get(node.id)
 

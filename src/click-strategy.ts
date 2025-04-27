@@ -11,7 +11,12 @@ export class ClickStrategy<K> implements Strategy {
     element.addEventListener('click', async () => {
       const node = create()
 
-      await this.editor.addNode(node)
+      const added = await this.editor.addNode(node)
+
+      if (!added) {
+        console.warn('Node addition prevented:', node)
+        return
+      }
 
       const viewportCenter = this.getViewportCenter()
       const view = this.area.nodeViews.get(node.id)
