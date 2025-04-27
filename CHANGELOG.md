@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/retejs/dock-plugin/compare/v2.0.3...v2.0.4) (2025-04-27)
+
+
+### Bug Fixes
+
+* **drop,click:** prevent adding nodes if the addition is unsuccessful ([57362c4](https://github.com/retejs/dock-plugin/commit/57362c48422aaf01f88495e084005061d75badbe))
+
 ## [2.0.3](https://github.com/retejs/dock-plugin/compare/v2.0.2...v2.0.3) (2024-08-30)
 
 
